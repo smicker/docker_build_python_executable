@@ -3,7 +3,7 @@ This is instruction on how to create a Docker image that you can use to build a 
 
 # Create image
 1. Clone this git
-   ```$ git clone ...```
+   ```$ git clone git@github.com:smicker/docker_build_python_executable.git```
 2. ```$ cd <the cloned git folder>```
 3. Open Dockerfile and set the OS version that you want
    Default is **debian:buster**
