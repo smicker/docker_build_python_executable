@@ -1,12 +1,38 @@
 # About
 This is instruction on how to create a Docker image that you can use to build a single executable file of your python project. It uses Pyinstaller inside the docker container.
 
+# Proxy
+There are several included programs that needs internet access. If you are behind a proxy you need to do the following to make this project work...
+- **Docker images**  
+  For docker to be able to fetch images from an Internet repository, you need to enter the following info in /etc/systemd/system/docker.service.d/proxy.conf
+  ```
+  Environment="HTTP_PROXY=http://<your proxy:port>"
+  Environment="HTTPS_PROXY=http://<your proxy:port>"
+  Environment="NO_PROXY=localhost,127.0.0.0/8,10.0.0.0/8,192.168.0.0/16,172.16.0.0/12"
+  ```
+- **Docker run commands like wget and pip**  
+  For docker to be able to run commands like wget and pip inside the run command you need to the set following info in ~/.docker/config.json
+  ```
+  {
+    "proxies":
+    {
+      "default":
+      {
+        "httpProxy": "<your proxy:port>",
+        "httpsProxy": "<your proxy:port>",
+        "noProxy": "localhost,127.0.0.0/8,10.0.0.0/8,192.168.0.0/16,172.16.0.0/12"
+      }
+    }
+  }
+  ```
+- **Proxy authorization**  
+  You also need to authenticate to the proxy. An easy way to do this is to open your browser and browse to any page on the Internet. Your browser will then take care of the authentication and this will work for some time.
+
 # Create image
 1. Clone this git
    ```$ git clone git@github.com:smicker/docker_build_python_executable.git```
 2. ```$ cd <the cloned git folder>```
-3. Open Dockerfile and set the OS version that you want
-   Default is **debian:buster**
+3. Open Dockerfile and set the OS version that you want. Default is **debian:buster**
 4. Also in the Dockerfile, set the version of python and pyinstaller that you want. Default is **python=3.7.5** and **pyinstaller=4.5.1**
 5. Build your image with:
    ```$ docker build -t my-pyinstaller-linux .```  
