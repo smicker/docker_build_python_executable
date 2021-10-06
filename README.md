@@ -72,7 +72,7 @@ I would have loved to include the three possible images that can be built with t
    (Change *pyinstaller-linux-image* to *pyinstaller-windows32-image* or *pyinstaller-windows64-image* if you want to build a windows .exe file instead)  
      
    Example:  
-   ```$ docker run --rm -v "$(pwd):/src/" pyinstaller-linux-image "pyinstaller --onefile --workpath /tmp --dist ./dist/linux -w -F --add-data templates:templates --add-data static:static my_main_script.py"```
+   ```$ docker run --rm -v "$(pwd):/src/" pyinstaller-linux-image "pyinstaller --onefile --workpath /tmp -y --dist ./dist/linux -w --add-data templates:templates --add-data static:static my_main_script.py"```
 6. Your built python executable can then be found under **\<your python project folder>/dist/[linux | windows]/**  
    Limitations: Unfortunately the executable will have root as owner but it is easy to change with:  
    ```$ sudo chown -R $USER ./dist```  
