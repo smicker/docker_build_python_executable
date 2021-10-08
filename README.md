@@ -57,9 +57,9 @@ I would have loved to include the three possible images that can be built with t
 2. Make sure that you have your main python file in the current folder. Also, if you need python packages to be installed, make sure that you have a requirements.txt file in this same folder, that contains all required packages. Those packages will be installed by the entrypoint script inside your docker container when you start your docker image.
 3. Now, depending on if you want to build with the default pyinstaller settings, proceed to step 4. Or if you need custom pyinstaller settings, proceed to step 5 (most common).
 4. Building with default pyinstaller settings means that, when you run your image, the entrypoint.sh script will run the pyinstaller like:  
-   *pyinstaller --clean -y --dist ./dist/linux --workpath /tmp \*.spec*  
+   *pyinstaller --clean -y --dist ./dist/linux --workpath /tmp --onefile \*.spec*  
    or corresponding  
-   pyinstaller --clean -y --dist ./dist/windows --workpath /tmp \*.spec*  
+   pyinstaller --clean -y --dist ./dist/windows --workpath /tmp --onefile \*.spec*  
    It will require that you also have a .spec file in your python project folder. To create a .spec file you need to install and run pyinstaller once locally (outside of docker).  
    To start the build, just run your docker image like below  
    ```$ docker run --rm -v "$(pwd):/src/" pyinstaller-linux-image```  
