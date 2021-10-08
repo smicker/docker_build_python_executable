@@ -1,6 +1,16 @@
 # About
 This is instruction on how to create a Docker image that you can use to build a single executable file of your python project. It uses Pyinstaller inside the docker container. The instuctions are ment to be used on a Linux computer. You can build three different docker images that can be used to create python executables for Linux, Windows32 and Windows64.
 
+# Needs to be pinpointed
+With this docker you can build a single Windows .exe file from your python code. However, there are some problems for this built Windows executable that needs to be addressed:
+- **Virus**  
+  If you build with Pyinstaller version 4.5.1, Windows defender will consider the built .exe file as a virus (trojan) and refuses to start it. If you use     Pyinstaller v4.1.0 the .exe file is accepted by Windows.
+- **runtime tmpdir**  
+  When you start your .exe file in Windows it will unpack some files into two directories called \_MEIxxxx. Those will be around 25 Mb. If the location of those files are not specified they will be created in the Windows default temp dir. This dir might be erased at some point and then the app will terminate. This is a problem for a long running app. And if you specify this location to anything else than "." the two folders will be created under C:\. But if you specify "." they will be created in the same directory as your .exe file. This is better. (The two \MEIxxxx folders will be removed when the .exe file terminates.  
+  To specify the directory you shall use the pyinstaller flag '--runtime-tmpdir .'
+- **jinja2.exceptions.TemplateNotFound**
+  If your python app is a flask app that creates a webpage and you run this on Windows and browses to the flask webpage (localhost:5000) you will get a TemplateNotFound error. So it seams like the template and static folders are not included correctly for the Windows version. This works fine in Linux.
+
 # Proxy
 There are several included programs that needs internet access. If you are behind a proxy you need to do the following to make this project work...
 - **Docker images**  
@@ -74,8 +84,8 @@ I would have loved to include the three possible images that can be built with t
    Example for **linux**:  
    ```$ docker run --rm -v "$(pwd):/src/" pyinstaller-linux-image "pyinstaller --onefile --workpath /tmp -y --dist ./dist/linux -w --add-data templates:templates --add-data static:static my_main_script.py"```  
    Example for **windows**:  
-   ```$ docker run --rm -v "$(pwd):/src/" pyinstaller-windows32-image "pyinstaller --onefile --workpath /tmp -y --dist ./dist/windows -w --add-data 'templates;templates' --add-data 'static;static' my_main_script.py"```  
-   (Note the differences for --add-data parameter. Linux has : as separator while Windows has ;. For Windows you also have to use apostrophes around the paths.)
+   ```$ docker run --rm -v "$(pwd):/src/" pyinstaller-windows32-image "pyinstaller --onefile --workpath /tmp -y --dist ./dist/windows --runtime-tmpdir . -w --add-data 'templates;templates' --add-data 'static;static' my_main_script.py"```  
+   (Note the differences for --add-data parameter. Linux has : as separator while Windows has ;. For Windows you also have to use apostrophes around the paths (But even though, it does not seem to work for Windows...the folders are not included). Also note that for --runtime-tmpdir only . (dot) works. Everything else will make the .exe file unpack its files to C:\)
 6. Your built python executable can then be found under **\<your python project folder>/dist/[linux | windows]/**  
    Limitations: Unfortunately the executable will have root as owner but it is easy to change with:  
    ```$ sudo chown -R $USER ./dist```  
