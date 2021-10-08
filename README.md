@@ -8,7 +8,7 @@ With this docker you can build a single Windows .exe file from your python code.
 - **runtime tmpdir**  
   When you start your .exe file in Windows it will unpack some files into two directories called \_MEIxxxx. Those will be around 25 Mb. If the location of those files are not specified they will be created in the Windows default temp dir. This dir might be erased at some point and then the app will terminate. This is a problem for a long running app. And if you specify this location to anything else than "." the two folders will be created under C:\. But if you specify "." they will be created in the same directory as your .exe file. This is better. (The two \MEIxxxx folders will be removed when the .exe file terminates.  
   To specify the directory you shall use the pyinstaller flag '--runtime-tmpdir .'
-- **jinja2.exceptions.TemplateNotFound**
+- **jinja2.exceptions.TemplateNotFound**  
   If your python app is a flask app that creates a webpage and you run this on Windows and browses to the flask webpage (localhost:5000) you will get a TemplateNotFound error. So it seams like the template and static folders are not included correctly for the Windows version. This works fine in Linux.
 
 # Proxy
