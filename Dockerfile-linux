@@ -1,6 +1,10 @@
+####################
+# Dockerfile-linux #
+####################
+
 # Debian buster is version 10 of debian which ends its lifecycle 2022-08-??
 FROM debian:buster
-SHELL ["/bin/bash", "-i", "-c"]
+SHELL ["/bin/bash", "-c"]
 
 ARG PYTHON_VERSION=3.7.5
 ARG PYINSTALLER_VERSION=4.5.1
