@@ -32,7 +32,7 @@ function parse_dist_folder() {
 	# Key is not found
 	echo ""
 	return 0
-    fi	
+    fi
 
     # Both dist and distpath can be used so handle both of them.
     # Remove everything before "--distpath " or "--dist "
@@ -41,10 +41,10 @@ function parse_dist_folder() {
 
     # Handle if value is surrounded by " or ' which could be the case if folder contains spaces
     if [[ ${tmp_str:0:1} == "\"" ]]; then
-	tmp_str=${tmp_str:1} 
+	tmp_str=${tmp_str:1}
         tmp_str=${tmp_str%%\"*}
     elif [[ ${tmp_str:0:1} == "'" ]]; then
-	tmp_str=${tmp_str:1} 
+	tmp_str=${tmp_str:1}
         tmp_str=${tmp_str%%\'*}
     else
         tmp_str=${tmp_str%% *}
@@ -121,7 +121,5 @@ else
     sh -c "${OTHER_COMMAND[*]}"
 fi # [[ "$OTHER_COMMAND" == "" ]]
 
-if [[ ${OUT_FOLDER} ]]; then
-    echo "Executing: chown -R --reference=. \"${OUT_FOLDER}\""
-    chown -R --reference=. "${OUT_FOLDER}"
-fi
+echo "Executing: chown -R --reference=. \".\" to set all created files to the same owner as the current WORKDIR"
+chown -R --reference=. "."

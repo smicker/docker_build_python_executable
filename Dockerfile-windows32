@@ -13,10 +13,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ARG WINE_VERSION=stable
 #ARG WINE_VERSION=staging
 ARG PYTHON_VERSION=3.7.5
-# NOTE: Building with the latest version of pyinstaller (v4.5.1 as of 2021-10-13) will create an exe
-# file that is classified as a virus by Windows 10, so Windows Defender will stop it from being executed.
-# Version 4.1.0 of pyinstaller does not have this problem.
-ARG PYINSTALLER_VERSION=4.1.0
+ARG PYINSTALLER_VERSION=4.7
 
 # We need wine for this all to work, so we'll use the PPA
 RUN set -x \
